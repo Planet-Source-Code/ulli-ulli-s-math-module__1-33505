@@ -1,0 +1,18 @@
+:Base EVALUATOR.hlp
+:Title Formula Evaluator Custom Control
+1 Formula Evaluator Custom Control
+2 Discussion on Fuzzy Sets=csCstDiscussiononFuzzySets
+1 UMG_EDV Formula Evaluator
+2 UMG_EDV Formula Evaluator=csLibUMG_EDVFormulaEvaluator
+2 Evaluator Control
+3 Evaluator Control=csCtlEvaluator
+3 Evaluator Properties
+4 Formula=csPFormulaEvaluator
+4 PreviousResult=csPPreviousResultEvaluator
+4 Result=csPResultEvaluator
+3 Evaluator Events
+4 Plot=csEPlotEvaluator
+4 QueryToken=csEQueryTokenEvaluator
+3 Evaluator Methods
+4 Evaluate=csMEvaluateEvaluator
+2 Example=csCstExample
