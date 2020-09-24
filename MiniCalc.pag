@@ -1,0 +1,165 @@
+VERSION 5.00
+Begin VB.PropertyPage MiniCalc 
+   Caption         =   "Formula Evaluator"
+   ClientHeight    =   3495
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   5925
+   KeyPreview      =   -1  'True
+   LockControls    =   -1  'True
+   PaletteMode     =   0  'Rasterbild
+   ScaleHeight     =   3495
+   ScaleWidth      =   5925
+   Begin VB.TextBox txtPTS 
+      Height          =   285
+      HelpContextID   =   10003
+      Left            =   4170
+      TabIndex        =   5
+      ToolTipText     =   "Result of formula evaluation"
+      Top             =   1995
+      Width           =   660
+   End
+   Begin VB.TextBox txtFormula 
+      Height          =   285
+      HelpContextID   =   10000
+      Left            =   240
+      TabIndex        =   1
+      ToolTipText     =   "Enter formula"
+      Top             =   1035
+      Width           =   4575
+   End
+   Begin VB.TextBox txtResult 
+      Enabled         =   0   'False
+      Height          =   285
+      HelpContextID   =   10003
+      Left            =   240
+      TabIndex        =   3
+      ToolTipText     =   "Result of formula evaluation"
+      Top             =   1980
+      Width           =   2520
+   End
+   Begin VB.Label lblPTS 
+      Caption         =   "Prime Table Size"
+      Height          =   360
+      Left            =   4170
+      TabIndex        =   4
+      Top             =   1545
+      Width           =   750
+   End
+   Begin VB.Label lb 
+      AutoSize        =   -1  'True
+      BackColor       =   &H00FFFFFF&
+      BorderStyle     =   1  'Fest Einfach
+      Caption         =   "1+1"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   15.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H000000C0&
+      Height          =   420
+      Left            =   240
+      TabIndex        =   6
+      ToolTipText     =   "Formula Evaluator"
+      Top             =   180
+      Width           =   600
+   End
+   Begin VB.Label lblFormula 
+      Caption         =   "Formula:"
+      Height          =   195
+      Left            =   240
+      TabIndex        =   0
+      Top             =   795
+      Width           =   600
+   End
+   Begin VB.Label lblResult 
+      Caption         =   "Result:"
+      Height          =   195
+      Left            =   240
+      TabIndex        =   2
+      Top             =   1725
+      Width           =   495
+   End
+End
+Attribute VB_Name = "MiniCalc"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Option Explicit
+Private KeyIsDown As Boolean
+
+Private Sub txtPrimeTableSize_Change()
+
+    Changed = True
+
+End Sub
+
+Private Sub PropertyPage_KeyDown(KeyCode As Integer, Shift As Integer)
+
+    KeyIsDown = True
+
+End Sub
+
+Private Sub PropertyPage_KeyUp(KeyCode As Integer, Shift As Integer)
+
+    KeyIsDown = False
+
+End Sub
+
+Private Sub txtFormula_Change()
+
+    Changed = KeyIsDown
+
+End Sub
+
+Private Sub PropertyPage_ApplyChanges()
+
+  Dim Eval As Variant
+
+    On Error Resume Next
+      For Each Eval In SelectedControls
+          Eval.PrimeTableSize = Val(txtPTS)
+          Eval.Formula = txtFormula
+          If Err Then
+              MsgBox "Error " & Format$(Err.Number) & vbCr & vbCr & Err.Description, vbOKOnly, Err.Source
+              Exit For '>---> Next
+          End If
+      Next Eval
+    On Error GoTo 0
+    PropertyPage_SelectionChanged
+
+End Sub
+
+Private Sub PropertyPage_SelectionChanged()
+
+    On Error Resume Next
+      txtFormula = SelectedControls(0).Formula
+      If Len(SelectedControls(0).Formula) Then
+          txtResult = SelectedControls(0).Result
+        Else 'LEN(SELECTEDCONTROLS(0).FORMULA) = FALSE
+          txtResult = ""
+      End If
+    On Error GoTo 0
+    txtPTS = SelectedControls(0).PrimeTableSize
+
+End Sub
+
+Private Sub txtFormula_GotFocus()
+
+    txtFormula.SelStart = 0
+    txtFormula.SelLength = Len(txtFormula)
+
+End Sub
+
+Private Sub txtPTS_Change()
+
+    Changed = KeyIsDown
+
+End Sub
+
+':) Ulli's VB Code Formatter V2.11.3 (06.04.2002 01:03:14) 2 + 71 = 73 Lines
